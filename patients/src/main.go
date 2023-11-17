@@ -15,5 +15,6 @@ func main() {
 }
 
 func MainServer(w http.ResponseWriter, r *http.Request) {
-    fmt.Fprintf(w, os.Getenv("GREETING") + " Patients- We like: Apples. ")
+    // keep changing the name of city to mimic change in the code.
+    fmt.Fprintf(w, os.Getenv("GREETING") + " Patients! We are located in: Oslo")
 }
