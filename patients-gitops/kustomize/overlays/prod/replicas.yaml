@@ -1,6 +1,6 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: hello-world-golang
+  name: patients
 spec:
   replicas: 2

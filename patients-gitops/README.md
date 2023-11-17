@@ -1,6 +1,6 @@
-# hello-world-golang (configuration)
+# patients (configuration)
 
-This repository does not contain actual application code for the hello-world application. It only contains some kubernetes manifests to deploy the application, through argocd.
+This repository does not contain actual application code for the patients application. It only contains some kubernetes manifests to deploy the application, through argocd.
 
 # Create github credentials:
 
