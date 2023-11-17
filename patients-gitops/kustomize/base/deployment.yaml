@@ -1,0 +1,17 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: patients
+
+spec:
+  replicas: 1
+  template:
+    spec:
+      containers:
+      - name: patients
+        image: docker.io/kamranazeem/patients
+        envFrom:
+        - configMapRef:
+            name: patients
+        ports:
+        - containerPort: 8080

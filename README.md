@@ -15,70 +15,71 @@
 * `ArgoCD-applications-dev` repo with application definitions to watch the `/dev` path in the above mentioned gitops repo
 * `ArgoCD-applications-demo` repo with application definitions to watch the `/demo` path in the above mentioned gitops repo
 * `ArgoCD-applications-prod` repo with application definitions to watch the `/prod` path in the above mentioned gitops repo
+* An additional plugin installed in ArgoCD will watch the container registry for new images, and this plugin will create a `.argocd-<some-name>-patients-dev.yaml` file in the `dev` path in the `patients-gitops` directory
+
+```
+$ cat overlays/dev/.argocd-app-patients-dev.yaml
+kustomize:
+  images:
+  - docker.io/kamranazeem/patients:rc-1.0.9
+```
 
 
-We also need:
+To follow this guide, we would also need:
 * A kubernetes cluster - to host/run these applications
 * ArgoCD - running inside the kubernetes cluster
+* An additional ArgoCD plugin to watch the container registry for the new images.
+* Some Git provider (GitHub, GitLab, etc)
+* Container registry
 
 
 # (Basic) Structure of repositories:
 
 ```
-
 (Your Git provider - GitHub/GitLab/etc)
+.
+├── argocd-apps-demo
+│   └── argocd-app-patients-demo.yaml
+├── argocd-apps-dev
+│   └── argocd-app-patients-dev.yaml
+├── argocd-apps-prod
+│   └── argocd-app-patients-prod.yaml
+├── docs
+│   └── README.md
+├── patients
+│   ├── Dockerfile
+│   ├── README.md
+│   └── src
+│       └── main.go
+├── patients-gitops
+│   ├── kustomize
+│   │   ├── base
+│   │   │   ├── deployment.yaml
+│   │   │   ├── kustomization.yaml
+│   │   │   └── service.yaml
+│   │   └── overlays
+│   │       ├── dev
+│   │       │   ├── kustomization.yaml
+│   │       │   ├── replicas.yaml
+│   │       │   └── variables.configmap
+│   │       └── prod
+│   │           ├── kustomization.yaml
+│   │           ├── replicas.yaml
+│   │           └── variables.configmap
+│   ├── plain-kubernetes
+│   │   ├── configmap.yaml
+│   │   ├── deployment.yaml
+│   │   ├── namespace.yaml
+│   │   └── service.yaml
+│   └── README.md
+└── README.md
 
-|
-|
-|------(repo) patients
-|               |
-|               |-src
-|               |   |-main.go 
-|               |
-|               |-Dockerfile   
-|
-|
-|-------(repo) patients-gitops
-|               |
-|               |-base
-|               |  |-deployment.yaml
-|               |  |-kustomize.yaml
-|               |
-|               |-overlays
-|                  |-dev
-|                  |  |-replicas.yaml
-|                  |  |-kustomize.yaml
-|                  |
-|                  |-demo
-|                  |  |-replicas.yaml
-|                  |  |-kustomize.yaml
-|                  |
-|                  |-prod
-|                     |-replicas.yaml
-|                     |-kustomize.yaml
-|
-|
-|-------(repo) argocd-apps-dev
-|               |
-|               |-patients-dev.yaml
-|               |-doctors-dev.yaml
-|
-|-------(repo) argocd-apps-demo
-|               |
-|               |-patients-demo.yaml
-|               |-doctors-demo.yaml
-|
-|-------(repo) argocd-apps-prod
-|               |
-|               |-patients-prod.yaml
-|               |-doctors-prod.yaml
-|
 ```
 
-This repository contains all of the above mentioned directories to help understand this example. In real-world situation, the above will all be separate git repositories.
+This repository contains all of the above mentioned directories to help understand this example. In real-world situation (and while following the steps in this guide), the above mentioned directories need to be created as separate git repositories.
 
 
-
+The step-by-step guide is located in the docs directory, [here](docs/README.md).
 
 ------
 
@@ -95,6 +96,6 @@ This repository contains all of the above mentioned directories to help understa
 * [Deploy your apps with template-free YAML](https://youtu.be/ahMIBxufNR0)
 * [TGI Kubernetes with Joe Beda](https://youtu.be/NFnpUlt0IuM)
 * [Template-Free Configuration Customization for Kubernetes - Jeffrey Regan/Google](https://youtu.be/EZ7kxa2GKYQ?si=jbXAikcZsVGsQrsu)
-* [kustomize our manifests with style](https://youtu.be/KvXcc7lXiXc?si=8AxXyEDT64512vu9)
+* [kustomize your manifests with style](https://youtu.be/KvXcc7lXiXc?si=8AxXyEDT64512vu9)
 
 

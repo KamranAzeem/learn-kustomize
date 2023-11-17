@@ -1,0 +1,35 @@
+# This file deploys the application and also watches:
+#   a) the specified path in the related "-gitops" directory
+#      for configuration changes e.g. "dev", or "prod"
+#   b) the container registry for changes in the image tag
+# ----------------------------------------------------------
+
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  #name: image-updater-patients
+  name: patients
+  namespace: argocd
+  #~ finalizers:
+    #~ - resources-finalizer.argocd.argoproj.io
+  annotations:
+    argocd-image-updater.argoproj.io/image-list: patients=docker.io/kamranazeem/patients
+    argocd-image-updater.argoproj.io/patients.update-strategy: semver
+    argocd-image-updater.argoproj.io/patients.allow-tags: regexp:^rc-1.0.0-[0-9a-zA-Z]+$
+    argocd-image-updater.argoproj.io/patients.force-update: "true"
+    argocd-image-updater.argoproj.io/write-back-method: git:secret:argocd/github-credentials
+    argocd-image-updater.argoproj.io/branch: master
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/KamranAzeem/patients-gitops.git
+    targetRevision: HEAD
+    path: kustomize/overlays/demo 
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: demo
+  syncPolicy:
+    automated:
+      selfHeal: true
+      prune: true
+      allowEmpty: true

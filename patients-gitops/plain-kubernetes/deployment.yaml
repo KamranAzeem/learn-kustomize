@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: patients
+  labels:
+    app: patients
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: patients
+  template:
+    metadata:
+      labels:
+        app: patients
+    spec:
+      containers:
+      - name: patients
+        image: docker.io/kamranazeem/patients:v1.0.0
+        ports:
+        - containerPort: 8080
+
+        env:
+          - name: GREETING
+            valueFrom:
+              configMapKeyRef:
+                name: patients
+                key: greeting

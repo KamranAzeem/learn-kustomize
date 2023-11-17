@@ -1,0 +1,10 @@
+resources:
+- ../../base
+
+patches:
+- path: ./replicas.yaml
+
+configMapGenerator:
+- name: patients
+  env: variables.configmap
+  
