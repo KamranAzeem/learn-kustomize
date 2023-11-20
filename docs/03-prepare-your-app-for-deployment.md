@@ -92,10 +92,13 @@ $ cp -a patients-gitops/. /home/kamran/Projects/Personal/github/patients-gitops/
 ```
 
 
-Turn these directories into git repositories and setup remote:
+Turn these directories into git repositories and setup remote.
 
 ```
-
+git add 
+git commit
+git remote add ......
+git push ....
 ```
 
 
