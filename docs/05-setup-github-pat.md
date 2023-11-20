@@ -31,3 +31,4 @@ argocd-secret                 Opaque   5      3d1h
 github-credentials            Opaque   2      16s
 [kamran@kworkhorse github]$
 ```
+

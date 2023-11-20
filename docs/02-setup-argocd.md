@@ -118,6 +118,29 @@ The API server can then be accessed using `https://localhost:8080`
 Use the username `admin` and the password found above.
 
 
+------
+# Setup Argo CD Image-Updater:
+
+The image-updater is used through the main ArgoCD application definition written in YAML, which is designed to watch the container image of the said applicaion in the container registry, and once it sees a change, it updates the "-gitops" repository of the same argocd application. Once it does that, it automatically reconsiles and restarts the pods with the new image.
+
+
+```
+kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj-labs/argocd-image-updater/stable/manifests/install.yaml
+```
+
+
+```
+[kamran@kworkhorse argocd-apps-dev]$ kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj-labs/argocd-image-updater/stable/manifests/install.yaml
+serviceaccount/argocd-image-updater created
+role.rbac.authorization.k8s.io/argocd-image-updater created
+rolebinding.rbac.authorization.k8s.io/argocd-image-updater created
+configmap/argocd-image-updater-config created
+configmap/argocd-image-updater-ssh-config created
+secret/argocd-image-updater-secret created
+deployment.apps/argocd-image-updater created
+[kamran@kworkhorse argocd-apps-dev]$ 
+```
+
 
 
 
